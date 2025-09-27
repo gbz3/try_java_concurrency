@@ -91,3 +91,26 @@ jdk.VirtualThreadEnd {
 }
 
 ```
+
+## 3.Javaにおける最新の並行処理の仕組み
+
+### フィボナッチ計算（FixedPool）
+
+```
+[1]$ java FibonacciNumberWithTraditionalThreadPool.java  # 応答なし（ダンプ取得後に Ctrl+C）
+
+[2]$ jps
+6851 SourceLauncher
+7049 Jps
+[2]$ jcmd 6851 Thread.dump_to_file -format=json threaddump.json
+6851:
+Created ****/try_java_concurrency/threaddump.json
+
+```
+
+### フィボナッチ計算（ForkJoinPool）
+
+```
+$ java FibonacciNumberWithForkJoinPool.java
+Fibonacci number is: 6765
+```
