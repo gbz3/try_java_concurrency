@@ -1,5 +1,31 @@
 # try_java_concurrency
 
+## 0. SDKMAN
+
+[SDKMAN](https://sdkman.io/)
+
+```
+$ sudo apt install unzip zip
+$ curl -s "https://get.sdkman.io" | bash
+$ source "/home/kashiba/.sdkman/bin/sdkman-init.sh"
+$ sdk version
+
+SDKMAN!
+script: 5.20.0
+native: 0.7.14 (linux aarch64)
+
+$ sdk list java
+...
+$ sdk install java 25-open
+...
+$ sdk current java
+Using java version 25-open
+$ java --version
+openjdk 25 2025-09-16
+OpenJDK Runtime Environment (build 25+36-3489)
+OpenJDK 64-Bit Server VM (build 25+36-3489, mixed mode, sharing)
+```
+
 ## 1. 導入部
 
 ### スレッドはいくつ生成できるか？
@@ -26,46 +52,42 @@ java.lang.OutOfMemoryError: unable to create native thread: possibly out of memo
 ### JFR
 
 ```
-$ java -version
-openjdk version "24.0.1" 2025-04-15
-OpenJDK Runtime Environment Homebrew (build 24.0.1)
-OpenJDK 64-Bit Server VM Homebrew (build 24.0.1, mixed mode, sharing)
 $ java -XX:StartFlightRecording=filename=recording.jfr,settings=VThreadEvents.jfc JFRVirtualThreadDemo.java
-$ jfr print --events jdk.VirtualThreadStart,jdk.VirtualThreadEnd,jdk.VirtualThreadPinned,jdk.VirtualThreadSubmitFailed recording.jfr 
+$ jfr print --events jdk.VirtualThreadStart,jdk.VirtualThreadEnd,jdk.VirtualThreadPinned,jdk.VirtualThreadSubmitFailed recording.jfr
 jdk.VirtualThreadStart {
-  startTime = 09:28:34.414 (2025-09-27)
+  startTime = 10:38:34.659 (2025-09-27)
+  javaThreadId = 29
+  eventThread = "" (javaThreadId = 29, virtual)
+}
+
+jdk.VirtualThreadEnd {
+  startTime = 10:38:34.660 (2025-09-27)
+  javaThreadId = 29
+  eventThread = "" (javaThreadId = 29, virtual)
+}
+
+jdk.VirtualThreadStart {
+  startTime = 10:38:34.660 (2025-09-27)
+  javaThreadId = 32
+  eventThread = "" (javaThreadId = 32, virtual)
+}
+
+jdk.VirtualThreadEnd {
+  startTime = 10:38:35.176 (2025-09-27)
+  javaThreadId = 32
+  eventThread = "" (javaThreadId = 32, virtual)
+}
+
+jdk.VirtualThreadStart {
+  startTime = 10:38:35.178 (2025-09-27)
   javaThreadId = 34
   eventThread = "" (javaThreadId = 34, virtual)
 }
 
 jdk.VirtualThreadEnd {
-  startTime = 09:28:34.414 (2025-09-27)
+  startTime = 10:38:35.680 (2025-09-27)
   javaThreadId = 34
   eventThread = "" (javaThreadId = 34, virtual)
-}
-
-jdk.VirtualThreadStart {
-  startTime = 09:28:34.415 (2025-09-27)
-  javaThreadId = 37
-  eventThread = "" (javaThreadId = 37, virtual)
-}
-
-jdk.VirtualThreadEnd {
-  startTime = 09:28:34.916 (2025-09-27)
-  javaThreadId = 37
-  eventThread = "" (javaThreadId = 37, virtual)
-}
-
-jdk.VirtualThreadStart {
-  startTime = 09:28:34.917 (2025-09-27)
-  javaThreadId = 39
-  eventThread = "" (javaThreadId = 39, virtual)
-}
-
-jdk.VirtualThreadEnd {
-  startTime = 09:28:35.419 (2025-09-27)
-  javaThreadId = 39
-  eventThread = "" (javaThreadId = 39, virtual)
 }
 
 ```
