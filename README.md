@@ -114,3 +114,13 @@ Created ****/try_java_concurrency/threaddump.json
 $ java FibonacciNumberWithForkJoinPool.java
 Fibonacci number is: 6765
 ```
+
+### メモリ一貫性
+
+```
+$ java --enable-preview MemoryConsistencyDemo.java
+Owner thread prepared: production-config
+Subtask found URL: prod.example.com
+Subtask sees: production-config
+Owner received: [Config: production-config, Connected to: prod.example.com]
+```
